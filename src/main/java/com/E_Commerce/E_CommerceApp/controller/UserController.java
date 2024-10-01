@@ -5,11 +5,9 @@ import com.E_Commerce.E_CommerceApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,15 +19,22 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User>registerUser(@PathVariable User user)
+    public ResponseEntity<User>registerUser(@RequestBody User user)
     {
         User newUser=userService.saveUser(user);
         return new ResponseEntity<>(newUser,HttpStatus.CREATED);
     }
 
-    public ResponseEntity<User>geUserByEmail(String email)
+    @GetMapping("/{email}")
+    public ResponseEntity<User>geUserByEmail(@PathVariable String email)
     {
         Optional<User> user=userService.findUserByEmail(email);
-        return 
+        return user.map(ResponseEntity::ok).orElseGet(()-> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping()
+    public List<User> getAllUsers()
+    {
+       return userService.getAllUsers();
     }
 }
