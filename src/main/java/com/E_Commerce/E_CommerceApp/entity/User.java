@@ -1,6 +1,8 @@
 package com.E_Commerce.E_CommerceApp.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,8 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
     @Column(nullable = false, unique = true)
     private String email;
 

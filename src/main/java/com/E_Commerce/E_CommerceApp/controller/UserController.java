@@ -2,6 +2,7 @@ package com.E_Commerce.E_CommerceApp.controller;
 
 import com.E_Commerce.E_CommerceApp.entity.User;
 import com.E_Commerce.E_CommerceApp.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User>registerUser(@RequestBody User user)
+    public ResponseEntity<User>registerUser(@Valid @RequestBody User user)
     {
         User newUser=userService.saveUser(user);
         return new ResponseEntity<>(newUser,HttpStatus.CREATED);
